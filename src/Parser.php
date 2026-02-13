@@ -189,7 +189,7 @@ class Parser {
       $this->nextToken()->skipWhitespace();
     }
     elseif ($this->isToken(T_DNUMBER)) {
-      $result = (double) $this->currentToken[1];
+      $result = (float) $this->currentToken[1];
       $this->nextToken()->skipWhitespace();
     }
     elseif ($this->isToken(T_CONSTANT_ENCAPSED_STRING)) {
