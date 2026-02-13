@@ -69,7 +69,7 @@ class Printer {
 
       $isSeq = count($keys) === 0 || $keys === range(0, count($node->getItems()) - 1);
       $isShort = array_reduce($node->getItems(), function ($carry, $item) {
-        return $carry && ($item->getValue() instanceof ScalarNode) && empty($item->getValue()->getOuterComments()) && strlen($item->getValue()->getScalar()) < 15;
+        return $carry && ($item->getValue() instanceof ScalarNode) && empty($item->getValue()->getOuterComments()) && strlen($item->getValue()->getScalar() ?: 'NULL') < 15;
       }, count($node->getItems()) < 5);
 
       $parts = [];

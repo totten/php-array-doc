@@ -94,6 +94,37 @@ class NewDocumentTest extends \PHPUnit\Framework\TestCase {
     $this->assertEquals($expected, $actual);
   }
 
+  public function testCreateTaggedData() {
+    $example = 'tagged-array.php';
+
+    $doc = PhpArrayDocument::create();
+    $root = $doc->getRoot();
+
+    $root['null value'] = new ScalarNode(NULL);
+    $root['null value']->setFactory('foo');
+
+    $root['double value'] = new ScalarNode(2.34);
+    $root['double value']->setFactory('foo');
+
+    $root['stringy double value'] = new ScalarNode('2.34');
+    $root['stringy double value']->setFactory('foo');
+
+    $root['empty string'] = new ScalarNode('');
+    $root['empty string']->setFactory('foo');
+
+    $root->importData(['array 1 2 3' => [1, 2, 3]]);
+    $root['array 1 2 3']->setFactory('foo');
+
+    $root->importData(['empty array' => []]);
+    $root['empty array']->setFactory('foo');
+
+    $printer = new Printer();
+    $actual = $printer->print($doc);
+    $file = dirname(__DIR__) . '/examples/' . $example;
+    $expected = file_get_contents($file);
+    $this->assertEquals($expected, $actual);
+  }
+
   public function testCreateUseWithoutComment() {
     $example = 'use-without-comments.php';
 
