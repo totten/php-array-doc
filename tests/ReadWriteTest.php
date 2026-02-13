@@ -20,6 +20,7 @@ class ReadWriteTest extends \PHPUnit\Framework\TestCase {
       $es[] = ['setting-definition-7.4.php'];
       $es[] = ['simple-array-7.4.php'];
     }
+    $es[] = ['tagged-array.php'];
 
     return $es;
   }
