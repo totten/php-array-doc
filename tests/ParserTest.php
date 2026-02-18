@@ -7,7 +7,7 @@ use PhpArrayDocument\ScalarNode;
 class ParserTest extends \PHPUnit\Framework\TestCase {
 
   public function testSettingDefinition() {
-    $example = version_compare(PHP_VERSION, '7.4', '<') ? 'setting-definition-7.3.php' : 'setting-definition-7.4.php';
+    $example = 'setting-definition-7.4.php';
 
     $file = dirname(__DIR__) . '/examples/' . $example;
 

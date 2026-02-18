@@ -49,10 +49,7 @@ class Printer {
     }
 
     if ($node instanceof ScalarNode) {
-      $value = var_export($node->getScalar(), TRUE);
-      if (in_array($value, ['false', 'true', 'null'])) {
-        $value = strtoupper($value);
-      }
+      $value = $this->stringifyScalar($node);
       return $prefix . $value . $suffix;
     }
     elseif ($node instanceof ArrayNode) {
@@ -100,6 +97,29 @@ class Printer {
     else {
       throw new \Exception("Unrecognized node type: " . get_class($node));
     }
+  }
+
+  /**
+   * @param ScalarNode $node
+   * @return string
+   */
+  public function stringifyScalar(ScalarNode $node): string {
+    $rawValue = $node->getScalar();
+    if (is_string($rawValue) && str_contains($rawValue, "'")) {
+      // Prefer double-quoted strings to avoid escaping single quotes,
+      // but only if the content is safe for a PHP double-quoted string.
+      // Unsafe: " (would need escaping), \ (escape introducer), $ (interpolation),
+      // and control characters like \n, \t, etc).
+      if (!preg_match('/["{\\\\$\\x00-\\x1F\\x7F]/', $rawValue)) {
+        return '"' . $rawValue . '"';
+      }
+    }
+    $stringified = var_export($rawValue, TRUE);
+    // Uppercase boolean and null values per style convention
+    if (in_array($stringified, ['false', 'true', 'null'])) {
+      $stringified = strtoupper($stringified);
+    }
+    return $stringified;
   }
 
 }
