@@ -21,12 +21,41 @@ abstract class BaseNode {
   /**
    * @template T of BaseNode
    * @param class-string<T> $type
-   * @return Generator<T>
+   * @return \Generator<T>
    */
   public function walkNodes(string $type = BaseNode::class) {
     if ($type === NULL || $this instanceof $type) {
       yield $this;
     }
+  }
+
+  /**
+   * Find items by path.
+   *
+   * @param array $path
+   *   Ex: ['*', 'settings', 'description']
+   * @return \Generator<BaseNode>
+   */
+  public function findPath(array $path): \Generator {
+    if (empty($path)) {
+      yield $this;
+      return;
+    }
+
+    $head = array_shift($path);
+    $tail = $path;
+
+    if ($this instanceof ArrayNode) {
+      foreach ($this->getItems() as $item) {
+        if ($head === '*' || $item->getKey() == $head) {
+          foreach ($item->getValue()->findPath($tail) as $child) {
+            yield $child;
+          }
+        }
+      }
+    }
+
+    yield from [];
   }
 
   /**
