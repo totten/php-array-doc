@@ -8,18 +8,8 @@ class ReadWriteTest extends \PHPUnit\Framework\TestCase {
   public function getExamples() {
     $es = [];
 
-    $phpVer = function ($op, $tgt): bool {
-      return version_compare(PHP_VERSION, $tgt, $op);
-    };
-
-    if ($phpVer('>=', '7.3.alpha') && $phpVer('<', '7.4')) {
-      $es[] = ['setting-definition-7.3.php'];
-      $es[] = ['simple-array-7.3.php'];
-    }
-    if ($phpVer('>=', '7.4.alpha')) {
-      $es[] = ['setting-definition-7.4.php'];
-      $es[] = ['simple-array-7.4.php'];
-    }
+    $es[] = ['setting-definition-7.4.php'];
+    $es[] = ['simple-array-7.4.php'];
     $es[] = ['tagged-array.php'];
 
     return $es;

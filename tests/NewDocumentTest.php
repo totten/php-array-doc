@@ -5,7 +5,7 @@ namespace PhpArrayDocument;
 class NewDocumentTest extends \PHPUnit\Framework\TestCase {
 
   public function testCreate() {
-    $example = version_compare(PHP_VERSION, '7.4', '<') ? 'setting-definition-7.3.php' : 'setting-definition-7.4.php';
+    $example = 'setting-definition-7.4.php';
 
     $doc = PhpArrayDocument::create()
       ->addUse('Civi\Core\SettingsDefinition')
@@ -43,7 +43,7 @@ class NewDocumentTest extends \PHPUnit\Framework\TestCase {
   }
 
   public function testCreateImportData() {
-    $example = version_compare(PHP_VERSION, '7.4', '<') ? 'simple-array-7.3.php' : 'simple-array-7.4.php';
+    $example = 'simple-array-7.4.php';
 
     $basicData = [
       'name' => 'hello',
@@ -70,6 +70,11 @@ class NewDocumentTest extends \PHPUnit\Framework\TestCase {
         'float-ish' => '45.6',
         'int' => 123,
         'int-ish' => '123',
+        'str-has-single-quotes' => "'single quotes'",
+        'str-has-double-quotes' => '"double quotes"',
+        'str-has-mixed-quotes' => '"I can\'t believe it!"',
+        'str-has-dollar' => 'more $s',
+        'do-not-use-double-quotes' => "The $ symbol isn't safe here",
         'fun\\ny \'b"u`siness' => 'a\\b\'c"d`e',
         'array-empty' => [],
         'array-short-seq' => [3, 2, 1],
