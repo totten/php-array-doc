@@ -75,6 +75,7 @@ class NewDocumentTest extends \PHPUnit\Framework\TestCase {
         'str-has-mixed-quotes' => '"I can\'t believe it!"',
         'str-has-dollar' => 'more $s',
         'do-not-use-double-quotes' => "The $ symbol isn't safe here",
+        'curly-okay' => "It's okay to double-quote {curly braces}!",
         'fun\\ny \'b"u`siness' => 'a\\b\'c"d`e',
         'array-empty' => [],
         'array-short-seq' => [3, 2, 1],

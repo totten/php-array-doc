@@ -110,7 +110,7 @@ class Printer {
       // but only if the content is safe for a PHP double-quoted string.
       // Unsafe: " (would need escaping), \ (escape introducer), $ (interpolation),
       // and control characters like \n, \t, etc).
-      if (!preg_match('/["{\\\\$\\x00-\\x1F\\x7F]/', $rawValue)) {
+      if (!preg_match('/["\\\\$\\x00-\\x1F\\x7F]/', $rawValue)) {
         return '"' . $rawValue . '"';
       }
     }
