@@ -39,6 +39,16 @@ class ParserTest extends \PHPUnit\Framework\TestCase {
     $this->assertEquals($this->parseExport($input), $realData);
   }
 
+  public function testArrayWithComments(): void {
+    $this->assertEquals([], $this->parseExport('<?php return [];'));
+    $this->assertEquals([], $this->parseExport("<?php return [\n];"));
+    $this->assertEquals([], $this->parseExport("<?php return [\n  // some comment\n];"));
+    $this->assertEquals([], $this->parseExport("<?php return [\n  /* multi\n  line */\n];"));
+    $this->assertEquals([], $this->parseExport("<?php return array(\n  // comment\n);"));
+    $this->assertEquals(['cssRules' => []], $this->parseExport("<?php return [\n  'cssRules' => [\n    //['disabled', 'is_active', '=', FALSE],\n  ],\n];"));
+    $this->assertEquals(['a' => 1], $this->parseExport("<?php return [\n  'a' => 1,\n  // trailing comment\n];"));
+  }
+
   public function testUnsupported(): void {
     $return = function($v) {
       return '<' . '?php return [' . $v . '];';

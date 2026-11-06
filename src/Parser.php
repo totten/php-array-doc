@@ -123,7 +123,10 @@ class Parser {
 
     $this->expect($openClose[0]);
     while (!$this->isToken($openClose[1])) {
-      $arrayItem = $this->parseArrayItem();
+      $arrayItem = $this->parseArrayItem($openClose[1]);
+      if ($arrayItem === NULL) {
+        break;
+      }
       if ($arrayItem->getKey() === NULL) {
         $arrayItem->setKey($num++);
       }
@@ -142,10 +145,15 @@ class Parser {
     return $result;
   }
 
-  private function parseArrayItem() {
+  private function parseArrayItem(string $closingToken = ']') {
     $this->skipWhitespace();
 
     $comments = $this->parseComments();
+    $this->skipWhitespace();
+
+    if ($this->isToken($closingToken)) {
+      return NULL;
+    }
 
     if ($this->isScalar($this->currentToken)) {
       $first = $this->parseScalar();
